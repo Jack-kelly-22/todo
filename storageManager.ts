@@ -1,19 +1,18 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-type Todo = {
-  id: number;
-  text: string;
-};
+import {Todo} from "./types";
 
+// Remove all todos from storage
 export const clearTodos = async () => {
   try {
     await AsyncStorage.removeItem("todos");
     console.log("cleared todos");
   } catch (e) {
-    // saving error
+    // saving error, log result
     console.log("error clearing todos: ", e);
   }
 };
 
+// Fetch all todos from storage, if none exist, return empty array
 export const loadTodos = async () => {
   try {
     const jsonValue = await AsyncStorage.getItem("todos");
@@ -29,6 +28,7 @@ export const loadTodos = async () => {
   }
 };
 
+// Save todos to storage
 export const storeTodos = async (todos: Todo[]) => {
   try {
     const jsonValue = JSON.stringify(todos);
