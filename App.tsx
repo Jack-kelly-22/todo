@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal,Text, View, TextInput, Button, FlatList, Pressable, Alert, RefreshControl } from 'react-native';
+import { Modal, Text, View, TextInput, Button, FlatList, Pressable, Alert, RefreshControl } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Todo } from './types';
 import { styles } from './styles';
@@ -37,8 +37,8 @@ export default function App() {
     reload()
   }, []);
 
-  
-  
+
+
   // Component holding all todo items
   function TodoList() {
     return (
@@ -47,10 +47,10 @@ export default function App() {
         renderItem={({ item }) => <Task {...item} />}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={reload} />}
         keyExtractor={({ id }) => id.toString()}
-        />
-        )
-      }
-      
+      />
+    )
+  }
+
   // Modal for adding a new todo
   function AddTodoModal() {
     const [description, setDescription] = useState('');
