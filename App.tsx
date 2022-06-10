@@ -30,7 +30,6 @@ export default function App() {
       setTodos(todos);
       setId(todos.length);
     }
-    // setTodos(todos);
     setLoading(false);
     console.log('reloaded');
   }
