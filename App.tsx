@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { Modal, Text, View, TextInput, Button, FlatList, Pressable, Alert, RefreshControl } from 'react-native';
+import { Modal, Text, View, TextInput, FlatList, Pressable, RefreshControl } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Todo } from './types';
 import { styles } from './styles';
-import { clearTodos, storeTodos, loadTodos } from './storageManager';
+import { clearTodos, storeTodo, loadTodos } from './storageManager';
 
 // Task component renders a single todo item
 const Task = ({ text, id }: Todo) => (
@@ -26,8 +26,11 @@ export default function App() {
     console.log('Start reload');
     setLoading(true);
     const todos = await loadTodos();
-    setTodos(todos);
-    setId(todos.length);
+    if (todos) {
+      setTodos(todos);
+      setId(todos.length);
+    }
+    // setTodos(todos);
     setLoading(false);
     console.log('reloaded');
   }
@@ -36,7 +39,6 @@ export default function App() {
   useEffect(() => {
     reload()
   }, []);
-
 
 
   // Component holding all todo items
@@ -59,7 +61,7 @@ export default function App() {
     // update todos in state and storage 
     const updateTodos = (todo: Todo) => {
       setTodos([todo, ...todos]);
-      storeTodos([todo, ...todos]);
+      storeTodo(todo);
     }
     // Add a new todo to the list and inc id
     const addTodo = () => {
@@ -108,12 +110,15 @@ export default function App() {
       </Pressable>
       {/* Scrollable flatlist to show Todo items */}
       <TodoList />
+
+      {/* button to clear todos */}
       <Pressable style={styles.button} onPress={() => {
         clearTodos()
         reload()
       }}>
         <Text>Clear Todos</Text>
       </Pressable>
+
       <AddTodoModal />
       <StatusBar style="auto" />
     </View>
